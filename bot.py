@@ -1,11 +1,11 @@
 import telebot
 import pymysql
 import os
-import paramiko 
+import paramiko
 import re
 from telebot import types
 
-
+#check atom git 
 token ="337579434:AAEj1McwA85EnGo3Azygg7Y5UZpeILn9v1g"
 bot = telebot.TeleBot(token)
 
@@ -25,7 +25,7 @@ def start(m):
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         keyboard.add(*[types.InlineKeyboardButton(text=name , callback_data=name) for name in ['Включить наблюдение','Выключить наблюдение','Статус','Рестарт','Выключить сервер','Основной инет - Ростелеком','Основной инет - Мегафон']])
         msg = bot.send_message(m.chat.id, 'Что сделать?' , reply_markup=keyboard,parse_mode='Markdown')
-        
+
     else:
         msg = bot.send_message(m.chat.id, 'Тебе сюда нельзя. Твой ID: ' + str(m.chat.id))
 @bot.callback_query_handler(func=lambda c: True)
@@ -38,7 +38,7 @@ def inline(c):
 		cursor.execute("UPDATE `Monitors` SET `Enabled` = 1")
 		db.commit()
 		db.close()
-		os.system('service zoneminder restart') 
+		os.system('service zoneminder restart')
 	elif c.data == 'Выключить наблюдение':
 		bot.answer_callback_query(callback_query_id=c.id,show_alert=True, text="Выключено")
 		bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*НАБЛЮДЕНИЕ ВЫКЛЮЧЕНО*',parse_mode='Markdown')
@@ -47,7 +47,7 @@ def inline(c):
 		cursor.execute("UPDATE `Monitors` SET `Enabled` = 0")
 		db.commit()
 		db.close()
-		os.system('service zoneminder restart')  
+		os.system('service zoneminder restart')
 	elif c.data == 'Статус':
 		db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock', user='root', passwd='kochergin1', db='zm' , port='3306')
 		cursor = db.cursor()
@@ -58,9 +58,9 @@ def inline(c):
 				#bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Статус:Наблюдение включено*',parse_mode='Markdown')
 			else:
 				bot.answer_callback_query(callback_query_id=c.id,show_alert=True, text="Наблюдение выключено")
-				#bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Статус:Наблюдение выключено*',parse_mode='Markdown')	
+				#bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Статус:Наблюдение выключено*',parse_mode='Markdown')
 		db.commit()
-		db.close()  
+		db.close()
 	elif c.data == 'Рестарт':
 		os.system('service zoneminder restart')
 		bot.answer_callback_query(callback_query_id=c.id,show_alert=True, text="Рестарт выполнен")
