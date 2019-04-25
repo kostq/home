@@ -3,13 +3,14 @@ import pymysql
 import os
 import paramiko
 import re
+import botconfig as con
 from telebot import types
 
-#check atom git 
-token ="337579434:AAEj1McwA85EnGo3Azygg7Y5UZpeILn9v1g"
+#check atom git
+token = con.token
 bot = telebot.TeleBot(token)
 
-allowed_users = ['191857882','285977295']
+allowed_users = [con.user1,con.user2]
 #check auth
 def allow_user(chatid):
     strid = str(chatid)
@@ -33,7 +34,7 @@ def inline(c):
 	if c.data == 'Включить наблюдение':
 		bot.answer_callback_query(callback_query_id=c.id,show_alert=True, text="Включено")
 		bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*НАБЛЮДЕНИЕ ВКЛЮЧЕНО*',parse_mode='Markdown')
-		db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock', user='root', passwd='kochergin1', db='zm' , port='3306')
+		db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock', user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb , port='3306')
 		cursor = db.cursor()
 		cursor.execute("UPDATE `Monitors` SET `Enabled` = 1")
 		db.commit()
@@ -42,14 +43,14 @@ def inline(c):
 	elif c.data == 'Выключить наблюдение':
 		bot.answer_callback_query(callback_query_id=c.id,show_alert=True, text="Выключено")
 		bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*НАБЛЮДЕНИЕ ВЫКЛЮЧЕНО*',parse_mode='Markdown')
-		db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock', user='root', passwd='kochergin1', db='zm' , port='3306')
+		db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock', user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb , port='3306')
 		cursor = db.cursor()
 		cursor.execute("UPDATE `Monitors` SET `Enabled` = 0")
 		db.commit()
 		db.close()
 		os.system('service zoneminder restart')
 	elif c.data == 'Статус':
-		db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock', user='root', passwd='kochergin1', db='zm' , port='3306')
+		db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock', user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb , port='3306')
 		cursor = db.cursor()
 		cursor.execute("SELECT `Enabled` FROM `Monitors` WHERE `Name` = 'Dvor'")
 		for row in cursor.fetchall():
@@ -70,9 +71,9 @@ def inline(c):
 	elif c.data == 'Основной инет - Ростелеком':
 		bot.answer_callback_query(callback_query_id=c.id,show_alert=True, text="Включен Ростелеком")
 		bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Ростелеком Основной*',parse_mode='Markdown')
-		host = '192.168.1.1'
-		user = 'admin'
-		secret = 'kochergin1'
+		host = con.routerip
+		user = con.routeruser
+		secret = con.routerpass
 		port = 22
 		client = paramiko.SSHClient()
 		client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -83,9 +84,9 @@ def inline(c):
 	elif c.data == 'Основной инет - Мегафон':
 		bot.answer_callback_query(callback_query_id=c.id,show_alert=True, text="Включен Мегафон")
 		bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Мегафон Основной*',parse_mode='Markdown')
-		host = '192.168.1.1'
-		user = 'admin'
-		secret = 'kochergin1'
+		host = con.routerip
+		user = con.routeruser
+		secret = con.routerpass
 		port = 22
 		client = paramiko.SSHClient()
 		client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
