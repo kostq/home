@@ -1,1 +1,1 @@
-# lg
+my home scripts
