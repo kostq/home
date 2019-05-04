@@ -10,7 +10,7 @@ from telebot import apihelper
 
 token = con.token
 bot = telebot.TeleBot(token)
-apihelper.proxy = {'https':'socks5://rkn_must_die:noutek_4ever@v.dredd.ru:7081'}
+apihelper.proxy = {'https':'socks5://{}:{}@{}:{}'.format(con.proxy_login, con.proxy_pass, con.proxy_ip, con.proxy_port)}
 
 # router config
 host = con.routerip
