@@ -10,7 +10,6 @@ from telebot import apihelper
 
 token = con.token
 bot = telebot.TeleBot(token)
-apihelper.proxy = {'https':'socks5://rkn_must_die:noutek_4ever@195.2.253.155:7081'}
 
 # router config
 host = con.routerip
@@ -123,4 +122,4 @@ def inline(c):
         client.close()
 
 
-bot.polling(none_stop=True, timeout = 50)
+bot.polling()
