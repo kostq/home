@@ -5,9 +5,11 @@ import paramiko
 import re
 import botconfig as con
 from telebot import types
+from telebot import apihelper
 
 token = con.token
 bot = telebot.TeleBot(token)
+apihelper.proxy = {'https':'socks5://rkn_must_die:noutek_4ever@195.2.253.155:7081'}
 
 # router config
 host = con.routerip
