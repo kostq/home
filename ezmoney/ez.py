@@ -70,7 +70,7 @@ def choose_category(message):
         bot.register_next_step_handler(msg, take_sum)
     elif (main_cat == u'Перевод'):
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
-        markup.add('Карта 4048', 'Карта 7107', 'Карта tinkoff',
+        markup.add('Карта 4048', 'Карта 3580', 'Карта tinkoff',
                    'Наличные', 'Сбер счет 2601')
         msg = bot.reply_to(message, 'ОТКУДА', reply_markup=markup)
         bot.register_next_step_handler(msg, change_a)
@@ -82,7 +82,7 @@ def change_a(message):
     user = user_dict[chat_id]
     user.change_source_a = change_source_a
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
-    markup.add('Карта 4048', 'Карта 7107', 'Карта tinkoff',
+    markup.add('Карта 4048', 'Карта 3580', 'Карта tinkoff',
                'Наличные', 'Сбер счет 2601')
     msg = bot.reply_to(message, 'КУДА', reply_markup=markup)
     bot.register_next_step_handler(msg, change_sum)
@@ -129,7 +129,7 @@ def check_sum(message):
     user = user_dict[chat_id]
     user.summ = summ
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
-    markup.add('Карта 4048', 'Карта 7107', 'Карта tinkoff', 'Наличные')
+    markup.add('Карта 4048', 'Карта 3580', 'Карта tinkoff', 'Наличные')
     msg = bot.reply_to(message, 'Выбери счет', reply_markup=markup)
     bot.register_next_step_handler(msg, notes_and_go)
 
@@ -175,9 +175,9 @@ def action(message):
             src4048 = cursor.fetchone()
             src4048_name = src4048["name"]
             src4048_money = src4048["source_money"]
-            src7107 = cursor.fetchone()
-            src7107_name = src7107["name"]
-            src7107_money = src7107["source_money"]
+            src3580 = cursor.fetchone()
+            src3580_name = src3580["name"]
+            src3580_money = src3580["source_money"]
             srctinkoff = cursor.fetchone()
             srctinkoff_name = srctinkoff["name"]
             srctinkoff_money = srctinkoff["source_money"]
@@ -188,7 +188,7 @@ def action(message):
         connection.commit()
     bot.send_message(chat_id, '‼️‼️‼️' + user.main_cat + '‼️‼️‼️' + '\n🛒Категория: ' + user.category +
                      '\n💰Сумма: ' + user.summ + ' руб' + '\n💳Счет: ' + user.source + '\n📝Комментарий: ' + user.notes)
-    bot.send_message(chat_id, 'Остаток по счетам\n' + src4048_name + ' - ' + str(int(src4048_money)) + ' руб\n' + src7107_name + ' - ' + str(int(src7107_money)
+    bot.send_message(chat_id, 'Остаток по счетам\n' + src4048_name + ' - ' + str(int(src4048_money)) + ' руб\n' + src3580_name + ' - ' + str(int(src3580_money)
                                                                                                                                              ) + ' руб\n' + srctinkoff_name + ' - ' + str(int(srctinkoff_money)) + ' руб\n' + srccash_name + ' - ' + str(int(srccash_money)) + ' руб\n')
 
 
@@ -220,9 +220,9 @@ def change_action(message):
             src4048 = cursor.fetchone()
             src4048_name = src4048["name"]
             src4048_money = src4048["source_money"]
-            src7107 = cursor.fetchone()
-            src7107_name = src7107["name"]
-            src7107_money = src7107["source_money"]
+            src3580 = cursor.fetchone()
+            src3580_name = src3580["name"]
+            src3580_money = src3580["source_money"]
             srctinkoff = cursor.fetchone()
             srctinkoff_name = srctinkoff["name"]
             srctinkoff_money = srctinkoff["source_money"]
@@ -233,7 +233,7 @@ def change_action(message):
         connection.commit()
     bot.send_message(chat_id, '‼️‼️‼️' + 'Было переведено ' + user.change_summ + ' руб' +
                      ' с счета ' + user.change_source_a + ' на счет ' + user.change_source_b + '‼️‼️‼️')
-    bot.send_message(chat_id, 'Остаток по счетам\n' + src4048_name + ' - ' + str(int(src4048_money)) + ' руб\n' + src7107_name + ' - ' + str(int(src7107_money)
+    bot.send_message(chat_id, 'Остаток по счетам\n' + src4048_name + ' - ' + str(int(src4048_money)) + ' руб\n' + src3580_name + ' - ' + str(int(src3580_money)
                                                                                                                                              ) + ' руб\n' + srctinkoff_name + ' - ' + str(int(srctinkoff_money)) + ' руб\n' + srccash_name + ' - ' + str(int(srccash_money)) + ' руб\n')
 
 
@@ -249,9 +249,9 @@ def stats(message):
                 src4048 = cursor.fetchone()
                 src4048_name = src4048["name"]
                 src4048_money = src4048["source_money"]
-                src7107 = cursor.fetchone()
-                src7107_name = src7107["name"]
-                src7107_money = src7107["source_money"]
+                src3580 = cursor.fetchone()
+                src3580_name = src3580["name"]
+                src3580_money = src3580["source_money"]
                 srctinkoff = cursor.fetchone()
                 srctinkoff_name = srctinkoff["name"]
                 srctinkoff_money = srctinkoff["source_money"]
@@ -261,10 +261,10 @@ def stats(message):
                 srcsber1 = cursor.fetchone()
                 srcsber1_name = srcsber1["name"]
                 srcsber1_money = srcsber1["source_money"]
-                src_all = src4048_money + src7107_money + \
+                src_all = src4048_money + src3580_money + \
                     srctinkoff_money + srccash_money + srcsber1_money
         finally:
-            bot.send_message(chat_id, 'Остаток по счетам\n' + src4048_name + ' - ' + str(int(src4048_money)) + ' руб\n' + src7107_name + ' - ' + str(int(src7107_money)) + ' руб\n' + srctinkoff_name + ' - ' + str(
+            bot.send_message(chat_id, 'Остаток по счетам\n' + src4048_name + ' - ' + str(int(src4048_money)) + ' руб\n' + src3580_name + ' - ' + str(int(src3580_money)) + ' руб\n' + srctinkoff_name + ' - ' + str(
                 int(srctinkoff_money)) + ' руб\n' + srccash_name + ' - ' + str(int(srccash_money)) + ' руб\n' + srcsber1_name + ' - ' + str(int(srcsber1_money)) + ' руб\n' + '\nИтого: ' + str(int(src_all)) + ' руб\n')
     else:
         msg = bot.reply_to(
