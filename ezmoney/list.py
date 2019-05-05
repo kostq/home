@@ -11,8 +11,8 @@ connection = db_con.getConnection()
 try:
 	with connection.cursor() as cursor:
 		cursor.execute ("SELECT `name`,`source_money` FROM `source`")
-		src4048 = cursor.fetchone()
-		print (src4048["name"],'-',src4048["source_money"])
+		src7107 = cursor.fetchone()
+		print (src7107["name"],'-',src7107["source_money"])
 		src3580 = cursor.fetchone()
 		print (src3580["name"],'-',src3580["source_money"])
 		srctinkoff = cursor.fetchone()
