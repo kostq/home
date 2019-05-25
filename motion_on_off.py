@@ -4,7 +4,7 @@ import sys
 
 def motion_on_off():
     user = 'kostq'
-    password = 'kochergin1'
+    password = 'kochergin2112955'
     ip = '192.168.1.16'
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
