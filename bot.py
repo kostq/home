@@ -18,6 +18,10 @@ host = con.routerip
 user = con.routeruser
 secret = con.routerpass
 port = 22
+#server cams
+cams_host = '192.168.1.16'
+cams_user = 'kostq'
+cams_secret = 'kochergin2112955'
 
 allowed_users = [con.user1, con.user2]
 # check auth
@@ -52,34 +56,51 @@ def inline(c):
             callback_query_id=c.id, show_alert=True, text="Включено")
         bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id,
                               text='*НАБЛЮДЕНИЕ ВКЛЮЧЕНО*', parse_mode='Markdown')
-        db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock',
-                             user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb, port='3306')
-        cursor = db.cursor()
-        cursor.execute("UPDATE `Monitors` SET `Enabled` = 1")
-        db.commit()
-        db.close()
-        os.system('service zoneminder restart')
+        #db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock',
+        #                     user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb, port='3306')
+        #cursor = db.cursor()
+        #cursor.execute("UPDATE `Monitors` SET `Enabled` = 1")
+        #db.commit()
+        #db.close()
+        #os.system('service zoneminder restart')
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(hostname=cams_host, username=cams_user,
+                       password=cams_secret, port=port)
+        stdin, stdout, stderr = client.exec_command(
+            'python3 /home/kostq/projects/home/motion_on.py')
+        data = stdout.read() + stderr.read()
+        client.close()
     elif c.data == 'Выключить наблюдение':
         bot.answer_callback_query(
+
             callback_query_id=c.id, show_alert=True, text="Выключено")
         bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id,
                               text='*НАБЛЮДЕНИЕ ВЫКЛЮЧЕНО*', parse_mode='Markdown')
-        db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock',
-                             user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb, port='3306')
-        cursor = db.cursor()
-        cursor.execute("UPDATE `Monitors` SET `Enabled` = 0")
-        db.commit()
-        db.close()
-        os.system('service zoneminder restart')
+        #db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock',
+        #                     user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb, port='3306')
+        #cursor = db.cursor()
+        #cursor.execute("UPDATE `Monitors` SET `Enabled` = 0")
+        #db.commit()
+        #db.close()
+        #os.system('service zoneminder restart')
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(hostname=cams_host, username=cams_user,
+                       password=cams_secret, port=port)
+        stdin, stdout, stderr = client.exec_command(
+            'python3 /home/kostq/projects/home/motion_off.py')
+        data = stdout.read() + stderr.read()
+        client.close()
     elif c.data == 'Статус':
-        db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock',
-                             user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb, port='3306')
-        cursor = db.cursor()
-        cursor.execute(
-            "SELECT `Enabled` FROM `Monitors` WHERE `Name` = 'Dvor'")
-        for row in cursor.fetchall():
-            if row[0] == 1:
-                bot.answer_callback_query(
+        #db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock',
+        #                     user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb, port='3306')
+        #cursor = db.cursor()
+        #cursor.execute(
+        #    "SELECT `Enabled` FROM `Monitors` WHERE `Name` = 'Dvor'")
+        #for row in cursor.fetchall():
+        #    if row[0] == 1:
+        #        bot.answer_callback_query(
                     callback_query_id=c.id, show_alert=True, text="Наблюдение включено")
                 #bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Статус:Наблюдение включено*',parse_mode='Markdown')
             else:
