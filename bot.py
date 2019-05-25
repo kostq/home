@@ -100,7 +100,7 @@ def inline(c):
         #    "SELECT `Enabled` FROM `Monitors` WHERE `Name` = 'Dvor'")
         #for row in cursor.fetchall():
         #    if row[0] == 1:
-        #        bot.answer_callback_query(
+                bot.answer_callback_query(
                     callback_query_id=c.id, show_alert=True, text="Наблюдение включено")
                 #bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Статус:Наблюдение включено*',parse_mode='Markdown')
             else:
