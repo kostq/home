@@ -11,6 +11,10 @@ def motion_on_off():
     client.connect(hostname=ip,username=user,password=password,look_for_keys=False,allow_agent=False)
     stdin,stdout,stderr = client.exec_command('python3 /home/kostq/projects/home/check_motion.py')
     result = (stdout.read())
+    if result == 'on':
+        print('OK')
+    else:
+        print('BAAAD')
     print(result)
     client.close()
 
