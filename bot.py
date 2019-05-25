@@ -11,8 +11,8 @@ from telebot import apihelper
 
 token = con.token
 bot = telebot.TeleBot(token)
-apihelper.proxy = {'https': 'socks5://{}:{}@{}:{}'.format(
-    con.proxy_login, con.proxy_pass, con.proxy_ip, con.proxy_port)}
+#apihelper.proxy = {'https': 'socks5://{}:{}@{}:{}'.format(
+#    con.proxy_login, con.proxy_pass, con.proxy_ip, con.proxy_port)}
 
 # router config
 host = con.routerip
@@ -20,9 +20,9 @@ user = con.routeruser
 secret = con.routerpass
 port = 22
 #server cams
-cams_host = '192.168.1.16'
-cams_user = 'kostq'
-cams_secret = 'kochergin2112955'
+cams_host = con.cams_host
+cams_user = con.cams_user
+cams_secret = con.cams_secret
 
 allowed_users = [con.user1, con.user2]
 # check auth
