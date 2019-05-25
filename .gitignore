@@ -1,4 +1,8 @@
 /connect.py
+/check_motion.py
+/motion_off.py
+/motion_on.py
+/motion_on_off.py
 /mikrotik_ssh.py
 /test.py
 /connect.py
