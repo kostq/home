@@ -3,6 +3,7 @@ import pymysql
 import os
 import paramiko
 import re
+import motion_on_off as motion
 import botconfig as con
 import requests
 from telebot import types
@@ -93,22 +94,23 @@ def inline(c):
         data = stdout.read() + stderr.read()
         client.close()
     elif c.data == 'Статус':
-        db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock',
-                             user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb, port='3306')
-        cursor = db.cursor()
-        cursor.execute(
-            "SELECT `Enabled` FROM `Monitors` WHERE `Name` = 'Dvor'")
-        for row in cursor.fetchall():
-            if row[0] == 1:
-                bot.answer_callback_query(
+        #db = pymysql.connect(host='localhost', unix_socket='/var/run/mysqld/mysqld.sock',
+        #                     user=con.mysqluser, passwd=con.mysqlpass, db=con.mysqldb, port='3306')
+        #cursor = db.cursor()
+        #cursor.execute(
+        #    "SELECT `Enabled` FROM `Monitors` WHERE `Name` = 'Dvor'")
+        #for row in cursor.fetchall():
+        #    if row[0] == 1:
+        if motion.check() == 'on':
+            bot.answer_callback_query(
                     callback_query_id=c.id, show_alert=True, text="Наблюдение включено")
                 #bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Статус:Наблюдение включено*',parse_mode='Markdown')
-            else:
-                bot.answer_callback_query(
+        else:
+            bot.answer_callback_query(
                     callback_query_id=c.id, show_alert=True, text="Наблюдение выключено")
                 #bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id,text='*Статус:Наблюдение выключено*',parse_mode='Markdown')
-        db.commit()
-        db.close()
+        #db.commit()
+        #db.close()
     elif c.data == 'Рестарт':
         os.system('service zoneminder restart')
         bot.answer_callback_query(
