@@ -1,11 +1,11 @@
 import io
 import sys
 
-def on():
-    with open('/etc/motioneye/thread-2.conf') as file:
+def motion_on():
+    with open('/etc/motioneye/thread-2.conf','r') as file:
         data = file.readlines()
-    data[5] = '# @motion_detection on'
-    with open('/etc/motioneye/thread-2.conf') as file:
+    data[5] = '# @motion_detection on' + '\n'
+    with open('/etc/motioneye/thread-2.conf','w') as file:
         file.writelines(data)
 
-on()
+motion_on()
