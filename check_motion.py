@@ -7,6 +7,8 @@ def check_status():
     print (data[5])
 
     if 'motion_detection on' in data[5]:
-        print('DETECTION ON')
+        return True
     else:
-        print('DETECTION OFF')
+        return False
+
+check_status()
